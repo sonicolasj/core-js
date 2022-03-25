@@ -561,11 +561,11 @@ Object.hasOwn({}, 'toString');     // => false
 
 #### ECMAScript: Function[⬆](#index)
 Modules [`es.function.name`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.function.name.js), [`es.function.has-instance`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.function.has-instance.js). Just ES5: [`es.function.bind`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.function.bind.js).
-```js
+```ts
 class Function {
-  name: string;
-  bind(thisArg: any, ...args: Array<mixed>): Function;
-  @@hasInstance(value: any): boolean;
+  readonly name: string;
+  bind(thisArg: any, ...args: Array<any>): Function;
+  [Symbol.hasInstance](value: any): boolean;
 }
 ```
 [*CommonJS entry points:*](#commonjs-api)
