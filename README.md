@@ -438,34 +438,34 @@ Modules [`es.object.assign`](https://github.com/zloirock/core-js/blob/master/pac
 Just ES5 features: [`es.object.create`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.create.js), [`es.object.define-property`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.define-property.js) and [`es.object.define-properties`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.es.object.define-properties.js).
 
 [ES2017 Annex B](https://tc39.es/ecma262/#sec-object.prototype.__defineGetter__) - modules [`es.object.define-setter`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.define-setter.js), [`es.object.define-getter`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.define-getter.js), [`es.object.lookup-setter`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.lookup-setter.js) and [`es.object.lookup-getter`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.object.lookup-getter.js)
-```js
+```ts
 class Object {
   toString(): string; // ES2015+ fix: @@toStringTag support
   __defineGetter__(property: PropertyKey, getter: Function): void;
   __defineSetter__(property: PropertyKey, setter: Function): void;
-  __lookupGetter__(property: PropertyKey): Function | void;
-  __lookupSetter__(property: PropertyKey): Function | void;
+  __lookupGetter__(property: PropertyKey): Function | undefined;
+  __lookupSetter__(property: PropertyKey): Function | undefined;
   static assign(target: Object, ...sources: Array<Object>): Object;
   static create(prototype: Object | null, properties?: { [property: PropertyKey]: PropertyDescriptor }): Object;
   static defineProperties(object: Object, properties: { [property: PropertyKey]: PropertyDescriptor })): Object;
   static defineProperty(object: Object, property: PropertyKey, attributes: PropertyDescriptor): Object;
-  static entries(object: Object): Array<[string, mixed]>;
-  static freeze(object: any): any;
-  static fromEntries(iterable: Iterable<[key, value]>): Object;
-  static getOwnPropertyDescriptor(object: any, property: PropertyKey): PropertyDescriptor | void;
+  static entries(object: Object): Array<[key: string, value: any]>;
+  static freeze<T>(object: T): readonly T;
+  static fromEntries(iterable: Iterable<[key: PropertyKey, value: any]>): Object;
+  static getOwnPropertyDescriptor(object: any, property: PropertyKey): PropertyDescriptor | undefined;
   static getOwnPropertyDescriptors(object: any): { [property: PropertyKey]: PropertyDescriptor };
   static getOwnPropertyNames(object: any): Array<string>;
   static getPrototypeOf(object: any): Object | null;
-  static hasOwn(object: object, key: PropertyKey): boolean;
+  static hasOwn(object: Object, key: PropertyKey): boolean;
   static is(value1: any, value2: any): boolean;
   static isExtensible(object: any): boolean;
   static isFrozen(object: any): boolean;
   static isSealed(object: any): boolean;
   static keys(object: any): Array<string>;
-  static preventExtensions(object: any): any;
-  static seal(object: any): any;
+  static preventExtensions<T>(object: T): T;
+  static seal<T>(object: T): T;
   static setPrototypeOf(target: any, prototype: Object | null): any; // required __proto__ - IE11+
-  static values(object: any): Array<mixed>;
+  static values(object: any): Array<any>;
 }
 ```
 [*CommonJS entry points:*](#commonjs-api)
