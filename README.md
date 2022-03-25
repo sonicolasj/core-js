@@ -585,30 +585,29 @@ console.log.bind(console, 42)(43); // => 42 43
 
 #### ECMAScript: Error[⬆](#index)
 Modules [`es.aggregate-error`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.aggregate-error.js), [`es.aggregate-error.cause`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.aggregate-error.cause.js), [`es.error.cause`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.error.cause.js).
-```js
-class [
-  Error,
-  EvalError,
-  RangeError,
-  ReferenceError,
-  SyntaxError,
-  TypeError,
-  URIError,
-  WebAssembly.CompileError,
-  WebAssembly.LinkError,
-  WebAssembly.RuntimeError,
-] {
-  constructor(message: string, { cause: any }): %Error%;
-}
-
-class AggregateError {
-  constructor(errors: Iterable, message: string, { cause: any }): AggregateError;
-  errors: Array<any>;
-  message: string;
-}
-
+```ts
 class Error {
+  constructor(message: string, options?: { cause?: Error })
+  cause?: Error
   toString(): string; // different fixes
+}
+
+class EvalError extends Error {}
+class RangeError extends Error {}
+class ReferenceError extends Error {}
+class SyntaxError extends Error {}
+class TypeError extends Error {}
+class URIError extends Error {}
+
+namespace WebAssembly {
+  class CompileError extends Error {} // Call as WebAssembly.CompileError
+  class LinkError extends Error {} // Call as WebAssembly.LinkError
+  class RuntimeError extends Error {} // Call as WebAssembly.RuntimeError
+}
+
+class AggregateError extends Error {
+  constructor(errors: Iterable<any>, message?: string, options?: { cause?: Error })
+  errors: Array<any>;
 }
 ```
 [*CommonJS entry points:*](#commonjs-api)
