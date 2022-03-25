@@ -634,43 +634,44 @@ Error.prototype.toString.call({ message: 1, name: 2 }) === '2: 1'; // => true
 
 #### ECMAScript: Array[⬆](#index)
 Modules [`es.array.from`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.from.js), [`es.array.is-array`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.is-array.js), [`es.array.of`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.of.js), [`es.array.copy-within`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.copy-within.js), [`es.array.fill`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.fill.js), [`es.array.find`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.find.js), [`es.array.find-index`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.find-index.js), [`es.array.iterator`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.iterator.js), [`es.array.includes`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.includes.js), [`es.array.slice`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.slice.js), [`es.array.join`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.join.js), [`es.array.index-of`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.index-of.js), [`es.array.last-index-of`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.last-index-of.js), [`es.array.every`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.every.js), [`es.array.some`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.some.js), [`es.array.for-each`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.for-each.js), [`es.array.map`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.map.js), [`es.array.filter`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.filter.js), [`es.array.reduce`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.reduce.js), [`es.array.reduce-right`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.reduce-right.js), [`es.array.reverse`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.reverse.js), [`es.array.sort`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.sort.js), [`es.array.flat`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.flat.js), [`es.array.flat-map`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.flat-map.js), [`es.array.unscopables.flat`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.unscopables.flat.js), [`es.array.unscopables.flat-map`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.unscopables.flat-map.js), [`es.array.at`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.array.at.js).
-```js
-class Array {
-  at(index: int): any;
-  concat(...args: Array<mixed>): Array<mixed>; // with adding support of @@isConcatSpreadable and @@species
+```ts
+class Array<T> {
+  at(index: int): T | undefined;
+  concat(...args: Array<T | Array<T>>): Array<T>; // with adding support of @@isConcatSpreadable and @@species
   copyWithin(target: number, start: number, end?: number): this;
-  entries(): Iterator<[index, value]>;
-  every(callbackfn: (value: any, index: number, target: any) => boolean, thisArg?: any): boolean;
-  fill(value: any, start?: number, end?: number): this;
-  filter(callbackfn: (value: any, index: number, target: any) => boolean, thisArg?: any): Array<mixed>; // with adding support of @@species
-  find(callbackfn: (value: any, index: number, target: any) => boolean), thisArg?: any): any;
-  findIndex(callbackfn: (value: any, index: number, target: any) => boolean, thisArg?: any): number;
-  flat(depthArg?: number = 1): Array<mixed>;
-  flatMap(mapFn: (value: any, index: number, target: any) => any, thisArg: any): Array<mixed>;
-  forEach(callbackfn: (value: any, index: number, target: any) => void, thisArg?: any): void;
-  includes(searchElement: any, from?: number): boolean;
-  indexOf(searchElement: any, from?: number): number;
-  join(separator: string = ','): string;
-  keys(): Iterator<index>;
-  lastIndexOf(searchElement: any, from?: number): number;
-  map(mapFn: (value: any, index: number, target: any) => any, thisArg?: any): Array<mixed>; // with adding support of @@species
-  reduce(callbackfn: (memo: any, value: any, index: number, target: any) => any, initialValue?: any): any;
-  reduceRight(callbackfn: (memo: any, value: any, index: number, target: any) => any, initialValue?: any): any;
+  entries(): Iterator<[index: number, value: T]>;
+  every(callbackfn: (value: T, index: number, target: Array<T>) => boolean, thisArg?: any): boolean;
+  fill(value: T, start?: number, end?: number): this;
+  filter(callbackfn: (value: T, index: number, target: Array<T>) => boolean, thisArg?: any): Array<T>; // with adding support of @@species
+  find(callbackfn: (value: T, index: number, target: Array<T>) => boolean), thisArg?: any): T | undefined;
+  findIndex(callbackfn: (value: T, index: number, target: Array<T>) => boolean, thisArg?: any): number;
+  flat(depthArg?: number = 1): Array<any>;
+  flatMap<U>(mapFn: (value: T, index: number, target: Array<T>) => Array<U>, thisArg: any): Array<U>;
+  forEach(callbackfn: (value: T, index: number, target: Array<T>) => void, thisArg?: any): void;
+  includes(searchElement: T, from?: number): boolean;
+  indexOf(searchElement: T, from?: number): number;
+  join(separator?: string): string; // Default separator is ','
+  keys(): Iterator<number>; // indices
+  lastIndexOf(searchElement: T, from?: number): number;
+  map<U>(mapFn: (value: T, index: number, target: Array<T>) => U, thisArg?: any): Array<U>; // with adding support of @@species
+  reduce<U>(callbackfn: (memo: U, value: T, index: number, target: Array<T>) => U, initialValue?: U): U;
+  reduceRight<U>(callbackfn: (memo: U, value: T, index: number, target: Array<T>) => U, initialValue?: U): U;
   reverse(): this; // Safari 12.0 bug fix
-  slice(start?: number, end?: number): Array<mixed>; // with adding support of @@species
-  splice(start?: number, deleteCount?: number, ...items: Array<mixed>): Array<mixed>; // with adding support of @@species
-  some(callbackfn: (value: any, index: number, target: any) => boolean, thisArg?: any): boolean;
-  sort(comparefn?: (a: any, b: any) => number): this; // with modern behavior like stable sort
-  values(): Iterator<value>;
-  @@iterator(): Iterator<value>;
-  @@unscopables: { [newMethodNames: string]: true };
-  static from(items: Iterable | ArrayLike, mapFn?: (value: any, index: number) => any, thisArg?: any): Array<mixed>;
+  slice(start?: number, end?: number): Array<T>; // with adding support of @@species
+  splice(start?: number, deleteCount?: number, ...items: Array<T>): Array<T>; // with adding support of @@species
+  some(callbackfn: (value: T, index: number, target: Array<T>) => boolean, thisArg?: any): boolean;
+  sort(comparefn?: (a: T, b: T) => number): this; // with modern behavior like stable sort
+  values(): Iterator<T>;
+  [Symbol.iterator](): Iterator<T>;
+  [Symbol.unscopables]: { [newMethodNames: string]: true };
+  static from<T>(items: Iterable<T> | ArrayLike<T>): Array<T>;
+  static from<T, U>(items: Iterable<T> | ArrayLike<T>, mapFn?: (value: T, index: number) => U, thisArg?: any): Array<U>;
   static isArray(value: any): boolean;
-  static of(...args: Array<mixed>): Array<mixed>;
+  static of<T>(...args: Array<T>): Array<T>;
 }
 
 class Arguments {
-  @@iterator(): Iterator<value>; // available only in core-js methods
+  [Symbol.iterator](): Iterator<any>; // available only in core-js methods
 }
 ```
 [*CommonJS entry points:*](#commonjs-api)
