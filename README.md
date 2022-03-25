@@ -795,24 +795,24 @@ Adding support of well-known [symbols](#ecmascript-symbol) `@@match`, `@@replace
 Annex B methods. Modules [`es.string.anchor`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.anchor.js), [`es.string.big`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.big.js), [`es.string.blink`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.blink.js), [`es.string.bold`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.bold.js), [`es.string.fixed`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.fixed.js), [`es.string.fontcolor`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.fontcolor.js), [`es.string.fontsize`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.fontsize.js), [`es.string.italics`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.italics.js), [`es.string.link`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.link.js), [`es.string.small`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.small.js), [`es.string.strike`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.strike.js), [`es.string.sub`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.sub.js), [`es.string.sup`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.sup.js), [`es.string.substr`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.string.substr.js), [`es.escape`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.escape.js) and [`es.unescape`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.unescape.js).
 
 `RegExp` features: modules [`es.regexp.constructor`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.regexp.constructor.js), [`es.regexp.dot-all`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.regexp.dot-all.js), [`es.regexp.flags`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.regexp.flags.js), [`es.regexp.sticky`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.regexp.sticky.js) and [`es.regexp.test`](https://github.com/zloirock/core-js/blob/master/packages/core-js/modules/es.regexp.test.js).
-```js
+```ts
 class String {
   static fromCodePoint(...codePoints: Array<number>): string;
-  static raw({ raw: Array<string> }, ...substitutions: Array<string>): string;
-  at(index: int): string;
+  static raw(template: { raw: Array<string> }, ...substitutions: Array<string>): string;
+  at(index: int): string | undefined;
   includes(searchString: string, position?: number): boolean;
   startsWith(searchString: string, position?: number): boolean;
   endsWith(searchString: string, position?: number): boolean;
   repeat(count: number): string;
-  padStart(length: number, fillStr?: string = ' '): string;
-  padEnd(length: number, fillStr?: string = ' '): string;
+  padStart(length: number, fillStr?: string): string; // fillStr defaults to ' '
+  padEnd(length: number, fillStr?: string): string; // fillStr defaults to ' '
   codePointAt(pos: number): number | void;
-  match(template: any): any; // ES2015+ fix for support @@match
-  matchAll(regexp: RegExp): Iterator;
+  match(template: any): RegExpMatchArray | null; // ES2015+ fix for support @@match
+  matchAll(regexp: RegExp): Iterator<RegExpMatchArray>;
   replace(template: any, replacer: any): any; // ES2015+ fix for support @@replace
-  replaceAll(searchValue: string | RegExp, replaceString: string | (searchValue, index, this) => string): string;
+  replaceAll(searchValue: string | RegExp, replaceString: string | (substring: string, ...args: any[]) => string): string;
   search(template: any): any; // ES2015+ fix for support @@search
-  split(template: any, limit?: int): Array<string>;; // ES2015+ fix for support @@split, some fixes for old engines
+  split(template: any, limit?: number): Array<string>;; // ES2015+ fix for support @@split, some fixes for old engines
   trim(): string;
   trimLeft(): string;
   trimRight(): string;
@@ -832,7 +832,7 @@ class String {
   sub(): string;
   substr(start: int, length?: int): string;
   sup(): string;
-  @@iterator(): Iterator<characters>;
+  [Symbol.iterator](): Iterator<string>; // characters
 }
 
 class RegExp {
